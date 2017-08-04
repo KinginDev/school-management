@@ -1,0 +1,67 @@
+
+
+<script src="../js/jquery-1.10.2.min.js"></script>
+<script src="../js/chart.js" type="text/javascript"></script>
+<div id="chart-container">
+															<canvas id="myCanvas">
+																
+															</canvas>
+</div>
+
+<script>
+	$(document).ready(function(){
+		
+		$.ajax({
+			url: "chart.php",
+			method: 'GET',
+			success: function(data){
+				console.log(data);
+				var student_id = [];
+				var date_of_admission = [];
+				var birthday = [];
+				var sex = []; 
+			
+				for(var i in data){
+					date_of_admission.push(data[i].date_of_admission);
+					student_id.push("Student ID " + data[i].student_id);
+					birthday.push(data[i].birthday);
+					sex.push(data[i].sex);
+				}
+				var charData = {
+					labels: student_id,
+					datasets : [
+					{
+							fill:false,
+						label : 'date of addmission',
+						backgroundColor: 'rgba(200, 200 ,200 0.75)',
+						borderColor: 'rgba(200, 200 ,200 0.75)',
+						hoverBackgroundColor: 'rgba(200, 200 ,200,1)',
+						hoverBorderColor: 'rgba(200, 200 ,200 0.75)',
+						data: sex
+					},
+					{
+						fill:false,
+						label : 'Birthday',
+						backgroundColor: 'rgba(200, 200 ,200 0.75)',
+						borderColor: 'rgba(200, 200 ,200 0.75)',
+						hoverBackgroundColor: 'rgba(200, 200 ,200,1)',
+						hoverBorderColor: 'rgba(200, 200 ,200 0.75)',
+						data: birthday
+					}
+					]
+				
+			};
+			var ctx = $("#myCanvas");
+			 var barGraph = new Chart(ctx, {
+			 	type: 'bar',
+			 	data: charData
+			});
+			},
+			error: function(data){
+				console.log(data);
+			}
+		});
+	});
+</script>
+
+			
